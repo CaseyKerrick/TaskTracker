@@ -20,10 +20,10 @@ function App() {
     <div className='content'>
       <div className='title'>Big Boy Task Tracker</div>
       <div>
-        <Tabs onChange={handleSelectTab} className='navBar'>
+        <Tabs onChange={handleSelectTab} className='navBar' value={selectedTab}>
           <Tab label='Task List' className={generateTabClass(0)} />
           <Tab label='Edit List' className={generateTabClass(1)} />
-          <Tab label='Battle' className={generateTabClass(2)} />
+          <Tab label='Postage Calulator' className={generateTabClass(2)} />
         </Tabs>
         <div role='tabpanel' hidden={selectedTab !== 0}><TaskList /></div>
         <div role='tabpanel' hidden={selectedTab !== 1}>bbb</div>

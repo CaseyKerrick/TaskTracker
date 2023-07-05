@@ -13,10 +13,12 @@
 
 .selectedTab {
   background-color: #fff;
+  font-weight: 700;
 }
 
 .unselectedTab {
   background-color: #A1a2a2;
+  font-weight: 700;
 }
 
 .content {
