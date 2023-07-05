@@ -18,6 +18,7 @@
 .selectedTab {
   background-color: #fff;
   font-weight: 700;
+  /* color: green; */
 }
 
 .unselectedTab {

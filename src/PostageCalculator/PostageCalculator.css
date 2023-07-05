@@ -40,11 +40,12 @@
 .generateSolution {
   margin-top: 10px;
   float: right;
-  background-color: cornflowerblue;
+  /* background-color: cornflowerblue; */
+  background-color: green;
 }
 
 .divider {
-  background-color: cornflowerblue;
+  background-color: green;
   width: 98%;
   height: 2px;
   border-radius: 3px;
@@ -53,7 +54,7 @@
 }
 
 .postageSolution {
-  background-color: rgb(152, 184, 243);
+  background-color: rgb(92, 172, 92);
   border-radius: 10px;
   width: 400px;
   margin-right: auto;
