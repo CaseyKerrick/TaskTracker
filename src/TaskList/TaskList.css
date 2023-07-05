@@ -15,5 +15,8 @@
   margin-right: auto;
   width: 900px;
   background-color: #fff;
-  /* padding: 20px; */
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 3px 3px rgb(165, 171, 177);
 }

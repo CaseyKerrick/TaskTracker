@@ -1,14 +1,18 @@
 .title {
-  border: 3px solid green;
+  color: green;
+  border: 3px dashed green;
+  background-color: #fff;
   border-radius: 5px;
   height: 80px;
   text-align: center;
   line-height: 80px;
-  /* color: #fff; */
   font-size: 35pt;
   font-weight: 600px;
   font-family: 'Luminari';
   margin-bottom: 50px;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .selectedTab {
@@ -32,17 +36,21 @@
   width: 20%;
   margin-left: 20px;
   margin-right: 20px;
-  /* padding-left: 50px; */
-  /* margin-right: 0px; */
-}
-
-.content {
-  /* background-color: #fff; */
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-left: 0;
 }
 
 .navBar {
   width: 900px;
-  padding-left: 430px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.page {
+  border-radius: 5px;
+}
+
+.MuiTabs-indicator {
+  background-color: #fff;
 }
