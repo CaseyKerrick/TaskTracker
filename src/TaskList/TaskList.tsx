@@ -1,6 +1,5 @@
 import React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import { List, ListItem } from '@mui/material';
 import { defaultTaskList, Task } from '../tasks';
 import './TaskList.css';
 

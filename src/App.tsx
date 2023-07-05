@@ -1,29 +1,35 @@
 import React from 'react';
+import { Tab, Tabs } from '@mui/material';
 import TaskList from './TaskList/TaskList';
-import NavBar from './NavBar/NavBar';
-
-// type Task = {
-//   description: string;
-//   active: boolean;
-//   frequency: number;
-//   dateLastPerformed?: string;
-// };
+import PostageCalculator from './PostageCalculator/PostageCalculator';
+import './App.css';
 
 function App() {
-  // const tasks: Task[] = [];
+  const [selectedTab, setSelectedTab] = React.useState(0);
 
-  // return (
-  //   <div className="App">
-  //     <Button variant="contained">Test Test test</Button>
-  //   </div>
-  // );
+  const generateTabClass = (tab: number) => {
+    const classes = 'navTab ';
+    return selectedTab === tab ? classes + 'selectedTab' : classes + 'unselectedTab';
+  };
+
+  const handleSelectTab = (event: React.SyntheticEvent, newTab: number) => {
+    setSelectedTab(newTab);
+  };
 
   return (
-    <div>
-      <NavBar></NavBar>
-      <TaskList></TaskList>
+    <div className='content'>
+      <div className='title'>Big Boy Task Tracker</div>
+      <div>
+        <Tabs onChange={handleSelectTab} className='navBar'>
+          <Tab label='Task List' className={generateTabClass(0)} />
+          <Tab label='Edit List' className={generateTabClass(1)} />
+          <Tab label='Battle' className={generateTabClass(2)} />
+        </Tabs>
+        <div role='tabpanel' hidden={selectedTab !== 0}><TaskList /></div>
+        <div role='tabpanel' hidden={selectedTab !== 1}>bbb</div>
+        <div role='tabpanel' hidden={selectedTab !== 2}><PostageCalculator /></div>
+      </div>
     </div>
-    
   );
 }
 

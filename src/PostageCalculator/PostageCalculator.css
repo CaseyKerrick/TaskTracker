@@ -1,0 +1,37 @@
+.taskItem {
+  border: 2px solid cornflowerblue;
+  /* border-radius: 5px; */
+  /* width: inherit; */
+  /* color: #fff; */
+  margin: 4px;
+  font-weight: 900;
+  height: 40px;
+  /* width: 700px; */
+}
+
+.mainList {
+  margin-left: auto;
+  margin-right: auto;
+  width: 900px;
+  background-color: #fff;
+  /* padding: 20px; */
+}
+
+.dataEntry {
+  padding: 20px;
+}
+
+.totalCostCents {
+  margin-right: 10px;
+}
+
+.maxStamps {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.generateSolution {
+  margin-top: 10px;
+  float: right;
+  background-color: cornflowerblue;
+}
