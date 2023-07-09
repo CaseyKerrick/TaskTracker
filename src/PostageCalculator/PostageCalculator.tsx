@@ -4,49 +4,57 @@ import './PostageCalculator.css';
 
 function PostageCalculator() {
 
+  const DEFAULT_STAMP_DENOMINATIONS = [4, 5, 10, 18, 20, 22, 24, 29, 33, 34, 50, 51, 66, 87, 100, 111];
+  const DEFAULT_POSTAGE_COST = 51;
+  const DEFAULT_STAMP_MAX = 4;
+
+  const sortInts = (a: number, b: number) => a - b;
+
   const generateSolutions = () => {
-    const integerDenominations = stampDenominations.split(',').map((item: string) => Number.parseInt(item));
-    let sols = [];
-    
-    for (let x = stampDenominations.length - 1; x >= 0; x--) {
+    const integerDenominations = stampDenominations.split(',').map((item: string) => Number.parseInt(item)).reverse();
+
+    let sols: any = [];
+    for (let x = 0; x < integerDenominations.length; x++) {
       const current = integerDenominations[x];
-      if (current < postageCost) {
-        const sol = generateIndividualSolution([current], postageCost - current, integerDenominations.slice(0, x + 2));
-        if (sol.length > 0) {
-          sols.push(sol.sort((a: number, b: number) => a - b));
+
+      if (current <= postageCost) {
+        const solution = generateIndividualSolution([current], postageCost - current, integerDenominations);
+
+        if (solution && solution.length > 0) {
+          sols = [...solution, ...sols];
         }
-      } else if (current === postageCost) {
-        sols.push([current]);
       }
     }
 
-    console.log(sols);
-    setSolutions(sols);
+    setSolutions(sortAndRemoveSolutionDuplicates(sols));
   };
+
+  const sortAndRemoveSolutionDuplicates = (arr: number[][]) => {
+    const sortedStrArrays = arr.map(solution => {
+      const sorted = solution.sort(sortInts);
+      return sorted.toString();
+    });
+    const duplicatesRemoved = new Set(sortedStrArrays);
+    return Array.from(duplicatesRemoved).map(entry => entry.split(',')).reverse();
+  }
 
   const generateIndividualSolution = (stamps: number[], remainingAmount: number, remainingStamps: number[]) => {
     if (remainingAmount === 0) {
-      return stamps;
-    } else if (remainingAmount < remainingStamps[0]) {
-      return [];
-    } else if (stamps.length >= 4) {
+      return [stamps];
+    } else if (remainingAmount < remainingStamps[remainingStamps.length - 1] || stamps.length >= maxStamps) {
       return [];
     }
 
-    let tempSolutions: any[] = [];
-    for (let x = remainingStamps.length - 1; x >= 0; x--) {
+    let newSolutions: any = [];
+    for (let x = 0; x < remainingStamps.length; x++) {
       const current = remainingStamps[x];
-      if (current > remainingAmount) {
-        continue;
-      }
-
-      const sol = generateIndividualSolution([current, ...stamps], remainingAmount - current, remainingStamps.splice(0, x + 2));
-      if (sol.length > 0) {
-        tempSolutions = [...tempSolutions, ...sol];
+      if (remainingAmount >= current) {
+        const deeperSolutions = generateIndividualSolution([current, ...stamps], remainingAmount - current, remainingStamps.slice(x));
+        newSolutions = [...deeperSolutions, ...newSolutions];
       }
     }
 
-    return tempSolutions;
+    return newSolutions;
   };
 
   const drawStamps = (stamps: number[]) => {
@@ -59,29 +67,27 @@ function PostageCalculator() {
     );
   };
 
-  // const setDenominations = (rawDenominations: string) => {
-  //   const integerStoredDenominations = rawDenominations.split(',').map((item: string) => Number.parseInt(item));
-  //   setStampDenominations(integerStoredDenominations);
-  // };
-
-  const [stampDenominations, setStampDenominations] = useState('');
-  const [postageCost, setPostageCost] = useState(51);
-  const [maxStamps, setMaxStamps] = useState(4);
+  const [stampDenominations, setStampDenominations] = useState(DEFAULT_STAMP_DENOMINATIONS.toString());
+  const [postageCost, setPostageCost] = useState(DEFAULT_POSTAGE_COST);
+  const [maxStamps, setMaxStamps] = useState(DEFAULT_STAMP_MAX);
   const [solutions, setSolutions] = useState(new Array());
 
   useEffect(() => {
-    const defaultStampDenominations = [4, 5, 10, 18, 20, 22, 24, 29, 33, 34, 50, 51, 66, 87, 100, 111];
+    const storedPostageCost = localStorage.getItem('postageCost');
+    if (storedPostageCost) {
+      setPostageCost(Number.parseInt(storedPostageCost));
+    }
+
+    const storedMaxStamps = localStorage.getItem('maxStamps');
+    if (storedMaxStamps) {
+      setMaxStamps(Number.parseInt(storedMaxStamps));
+    }
+
     const storedDenominations = localStorage.getItem('stampDenominations');
-    
-    if (!storedDenominations || storedDenominations.length <= 0) {
-      localStorage.setItem('stampDenominations', defaultStampDenominations.toString());
-      setStampDenominations(defaultStampDenominations.toString());
-    } else {
-    //   const integerStoredDenominations = storedDenominations.split(',').map((item: string) => Number.parseInt(item));
-    // setStampDenominations(integerStoredDenominations);
+    if (storedDenominations) {
       setStampDenominations(storedDenominations);
     }
-  }, [setStampDenominations]);
+  }, [setPostageCost, setMaxStamps, setStampDenominations]);
 
   return (
     <div className='mainList'>
@@ -94,7 +100,9 @@ function PostageCalculator() {
             endAdornment: <InputAdornment position="end">¢</InputAdornment>,
           }}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setPostageCost(Number.parseInt(event.target.value) || 0);
+            const newPostageCost = Number.parseInt(event.target.value) || 0;
+            localStorage.setItem('postageCost', newPostageCost.toString());
+            setPostageCost(newPostageCost);
           }}
         />
         <TextField
@@ -102,6 +110,7 @@ function PostageCalculator() {
           className='maxStamps'
           value={maxStamps}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            localStorage.setItem('maxStamps', event.target.value);
             setMaxStamps(Number.parseInt(event.target.value) || 0);
           }}
         />
@@ -109,16 +118,18 @@ function PostageCalculator() {
           label="Stamp Values Available"
           className='stampValues'
           value={stampDenominations}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setStampDenominations(event.target.value || '');
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => setStampDenominations(event.target.value || '')}
+          onBlur={() => {
+            const intStampDenoms = stampDenominations.split(',').map(strDenom => Number.parseInt(strDenom.trim()));
+            const strSortedStampDenoms = intStampDenoms.sort(sortInts).toString();
+
+            localStorage.setItem('stampDenominations', strSortedStampDenoms);
+            setStampDenominations(strSortedStampDenoms);
           }}
         />
         <Button
           variant="contained"
-          onClick={() => {
-            localStorage.setItem('stampDenominations', stampDenominations);
-            generateSolutions();
-          }}
+          onClick={() => generateSolutions()}
           className="generateSolution"
         >
           Generate Solutions
