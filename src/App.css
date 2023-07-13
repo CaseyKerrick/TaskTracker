@@ -18,12 +18,13 @@
 .selectedTab {
   background-color: #fff;
   font-weight: 700;
-  /* color: green; */
+  box-shadow: 3px 3px rgb(165, 171, 177);
 }
 
 .unselectedTab {
   background-color: #A1a2a2;
   font-weight: 700;
+  box-shadow: 3px 3px rgb(144, 147, 150);
 }
 
 .content {

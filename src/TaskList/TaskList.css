@@ -1,13 +1,11 @@
 .taskItem {
-  background-color: cornflowerblue;
-  /* border: 1px solid #fff; */
+  background-color: rgb(92, 172, 92);
   border-radius: 5px;
-  width: inherit;
+  width: 400px;
   color: #fff;
-  margin: 4px;
+  margin: 10px;
   font-weight: 900;
   height: 40px;
-  /* width: 700px; */
 }
 
 .mainList {
@@ -19,4 +17,33 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   box-shadow: 3px 3px rgb(165, 171, 177);
+}
+
+.taskListContainer {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid green;
+  border-radius: 5px;
+}
+
+.taskListHeader {
+  font-weight: 700;
+  background-color: green;
+  color: #fff;
+}
+
+.daysRemainingCell {
+  height: 30px;
+  line-height: 30px;
+  width: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 100%;
+  font-weight: 600;
+  color: white;
+}
+
+.MuiTableCell-root {
+  padding: 7px;
 }
