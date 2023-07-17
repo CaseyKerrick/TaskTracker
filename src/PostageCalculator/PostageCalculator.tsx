@@ -61,7 +61,7 @@ function PostageCalculator() {
     return (
       <div>
         { stamps.map((stamp: number, index: number) =>
-          (<div key={'' + stamp + index} className="stamp">{stamp}</div>)
+          (<div className="stampContainer"><div key={'' + stamp + index} className="stamp">{stamp}</div></div>)
         )}
       </div>
     );
